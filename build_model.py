@@ -84,7 +84,6 @@ def make_dissimilarity_model(x_train):
     weighted_analog_input_layer = tf.keras.layers.Input(shape=map_dim)
 
     # Calculate the MSE between the weighted SOI and the weighted analogs
-    # dissimilarity = tf.keras.losses.MeanSquaredError()(weighted_soi_input_layer, weighted_analogs_input_layer)
     weighted_soi_flat = tf.keras.layers.Flatten()(weighted_soi_input_layer)
     weighted_analog_flat = tf.keras.layers.Flatten()(weighted_analog_input_layer)
 
