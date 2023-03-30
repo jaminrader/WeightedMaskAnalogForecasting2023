@@ -1,0 +1,106 @@
+This repo trains and assesses weighted masks for analog forecasting. 
+
+Getting started:
+
+Step 1:
+    Run _make_directories.py >> this will create the necessary directories for storing metrics, results,
+    and figures
+
+Step 2: 
+    Define an experiment in experiments.py. To try out the ENSO example, use experiment "exp300".
+
+Step 3: 
+    Run _driver.py with the experiment(s) you want. This will train the neural network to learn the 
+    weighted mask for analog forecasting.
+
+Step 4: 
+    Run _evaluate_performance.py with the experiment(s) you ran in Step 3. This will assess the skill of
+    the analog forecasting approach with the learned weighted mask. 
+
+
+Defining your own experiment:
+
+    Update the dictionary in experiments.py to include your own experiment. 
+
+    Below I have explained exp300
+
+    "exp300": {
+        # Define which models you'd like to create. The interp_model is the model that learns the weighted
+        # mask for analog forecasting. The ann_model is a vanilla ann that predicts the target given the input.
+        # The ann_analog_model directly predicts how similar two maps will be without using the weighted mask 
+        # to assess similarity 
+        "model_type_list": ("interp_model", "ann_model", "ann_analog_model"),
+        # If the data has already been saved, insert the filename here
+        "presaved_data_filename": None,
+        # Classification or regression task
+        "output_type": "regression",
+        # Feature variable (e.g. surface temperature (ts))
+        "feature_var": "ts",
+        # Target variable (e.g. surface temperature (ts))
+        "target_var": "ts",
+        # Forcing scenario to use
+        "scenario": "historical",  # ("historical", "rcp45", "both)
+        # Region to use as features (predictors), specify new regions in regions.py
+        "feature_region_name": "globe",
+        # Region for which you are predicting, specify new regions in regions.py
+        "target_region_name": "nino34",
+        # Region to compare results with, e.g., how would the analog method perform if the
+        # correlation_region_name was used without the weighted mask
+        "correlation_region_name": "indopac",
+        # A custom baseline to use. More custom baselines can be defined in metrics.py. This key is optional.
+        "custom_baseline": "avg_evolution",
+        # Which season is used for the features and targets?
+        "season": (5, 1), # Five months, centered on January (i.e. NDJFM)
+        # Should we take a rolling mean? 1 or -1 means no, 2 or -2 means we are rolling over two years, etc.
+        "smooth_len_input": 1,  # should be positive
+        "smooth_len_output": -1,  # should be negative
+        "lead_time": 1, # Lead time = 1 means the year 0 is used to predict year 1.
+        # Use years in the past to compute a time tendency channel?
+        "extra_channel": None,  # years into the past to use to compute the time tendency and add it as a 2nd channel
+        # Mask out the land or ocean before computing the inputs (features) or outputs (targets)
+        "maskout_landocean_input": "land",
+        "maskout_landocean_output": "land",
+        # Standardize the data? Generally, set as True
+        "standardize_bool": True,
+
+        # Ensemble members to be used as the library of potential analogs
+        "analog_members": np.arange(0, 35),
+        # States of interest (SOI) used for training the model
+        "soi_train_members": np.arange(35, 50),
+        # SOI to be used for validation
+        "soi_val_members": np.arange(50, 55),
+        # SOI to be used for testing. These should not be the same as the testing SOI during the model tuning
+        # step, as the testing members in that case are actually used as a secondary validation set
+        "soi_test_members": np.arange(95, 100),
+
+        # Neural network params
+        "loss_f": "mse",
+        "patience": 50, # Patience for EarlyStopping callback
+        "min_delta" : .0005, # min_delta for EarlyStopping callback
+        "rng_seed_list": list(range(0,100, 10)), # List of random seeds to compute multiple models
+        "batch_size": 64,
+        "val_batch_size": 2_500,
+        "max_epochs": 5_000,
+
+        # Specs for the interp_model
+        "prediction_model_nodes": (20,20,),
+        "prediction_model_act": "tanh",
+        "mask_model_act": "relu",
+        "mask_initial_value": "ones",
+        "mask_l1": 0.0,
+        "mask_l2": 0.0,
+        "normalize_weights_bool": True,
+        "interp_learning_rate": 0.0001,
+
+        # Specs for the ann_model
+        "ann_model_nodes": (2,2,),
+        "ann_model_act": "relu",
+        "ann_learning_rate": 0.0001,
+        "ann_input_l2": 0.00001,
+
+        # Specs for the ann_analog_model
+        "ann_analog_model_nodes": (50, 50,),
+        "ann_analog_model_act": "relu",
+        "ann_analog_learning_rate": .0001,
+        "ann_analog_input_l2": 0.0,
+    },
