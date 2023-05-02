@@ -320,7 +320,7 @@ def visualize_interp_model(settings, weights_train, lat, lon):
     fig = plt.figure(figsize=(7.5 * num_maps, 5))
 
     # colorbar limits
-    climits_dat = weights_train.mean(axis=0)
+    climits_dat = weights_train
     climits = (climits_dat.min(), climits_dat.max())
 
     # plot the weighted mask

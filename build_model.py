@@ -46,7 +46,8 @@ def make_weights_model(x_train, mask_model_act, mask_l1, mask_l2,
             self.bias = self.add_weight('bias',
                                         shape=(input_shape[1:]),
                                         initializer=mask_initial_value,
-                                        trainable=True)
+                                        trainable=True,
+                                        constraint=tf.keras.constraints.NonNeg(),)
         def call(self, x):
             return tf.zeros_like(x) + self.bias
         

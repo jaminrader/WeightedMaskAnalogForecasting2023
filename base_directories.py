@@ -36,7 +36,6 @@ def get_directories():
         "data_directory": data_directory,
         "example_data_directory" : 'example_data/',
         "figure_directory" : 'figures/',
-        "figure_mimse_directory": 'figures/mimse_generations/',
         "figure_diag_directory": 'figures/model_diagnostics/',
         "figure_metrics_directory": 'figures/metrics_summary/',
         "figure_custom_directory": 'figures/custom/',
