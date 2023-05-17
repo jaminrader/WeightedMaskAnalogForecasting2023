@@ -286,7 +286,8 @@ def summarize_skill_score(metrics_dict):
 
 
 def plot_interp_masks(fig, settings, weights_train, lat, lon, region_bool=True, climits=None, central_longitude=215.,
-                      title_text=None, subplot=(1, 1, 1), cmap=None, use_text=True, edgecolor="turquoise"):
+                      title_text=None, subplot=(1, 1, 1), cmap=None, use_text=True, edgecolor="turquoise", 
+                      cbarBool=True):
 
     if cmap is None:
         cmap = get_mycolormap()
@@ -316,7 +317,7 @@ def plot_interp_masks(fig, settings, weights_train, lat, lon, region_bool=True, 
                     vmax=climits[1],
                     cmap=cmap,
                     extent=None,
-                    cbarBool=True,
+                    cbarBool=cbarBool,
                     landfacecolor=landfacecolor,
                     )
         if region_bool:

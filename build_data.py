@@ -53,7 +53,10 @@ def maskout_land_ocean(da, maskout="land"):
     #     mask = xr.load_dataarray(dir_settings["data_directory"] + "MPI-ESM_land_mask.nc").to_numpy()
     else:
         raise NotImplementedError("no such mask type.")
-    return da*mask
+    if da is not None:
+        return da*mask
+    else:
+        return mask
 
 
 def build_data(settings, data_directory):

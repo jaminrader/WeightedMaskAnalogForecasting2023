@@ -249,11 +249,8 @@ def assess_metrics(settings, model, soi_input, soi_output, analog_input,
 
     # -----------------------
     # Persistence
-    print('SHOULD BE ABOUT: ', np.mean(np.abs(soi_output[5:] - soi_output[:-5])))
     persist_true, persist_pred = metrics.calc_persistence_baseline(soi_output, settings)
-    print('PERSIST AND RESIST: ', np.mean(np.abs(persist_true - persist_pred)))
     error_persist[:] = metrics.get_analog_errors(persist_true, persist_pred)
-    print('JUST RESIST: ', np.mean(error_persist))
 
     ### Printing the amount of time it took
     time_end = time.perf_counter()
@@ -312,6 +309,27 @@ def assess_metrics(settings, model, soi_input, soi_output, analog_input,
 
     return metrics_dict
 
+def retrieve_mask(model, settings, shape, setmaskedas=0.0):
+    weighted_mask = model.get_layer('mask_model').get_layer("weights_layer").bias.numpy()
+    if shape is not None:
+        weighted_mask = weighted_mask.reshape(shape)
+    
+    geomask = build_data.maskout_land_ocean(None, maskout=settings["maskout_landocean_input"]).squeeze()
+
+    weighted_mask = scale_mask(weighted_mask, geomask, setmaskedas=setmaskedas)
+
+    return weighted_mask
+
+def scale_mask(weighted_mask, landmask, setmaskedas=0.0):
+    # Set masked values to zero
+    weighted_mask[landmask == 0] = 0.0
+    num_weights = np.sum(landmask) * weighted_mask.shape[-1]
+    # Re-scale so the mean weight is 1
+    weighted_mask = weighted_mask / np.sum(weighted_mask) * num_weights
+    # Set masked values to the specified value (usually 0.0 or np.nan)
+    weighted_mask[landmask == 0] = setmaskedas
+
+    return weighted_mask
 
 def visualize_interp_model(settings, weights_train, lat, lon):
 

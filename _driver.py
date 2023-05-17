@@ -15,7 +15,7 @@ __version__ = "30 March 2023"
 
 # List of experiments to run
 EXP_NAME_LIST = (
-    "exp303precheck",
+    "exp500",
 )
 
 if __name__ == "__main__":

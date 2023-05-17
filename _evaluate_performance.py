@@ -28,8 +28,7 @@ __version__ = "30 March 2023"
 # List of experiments to run
 overwrite_metrics = True
 exp_name_list = (
-    "exp302precheck",
-    # "exp200",
+    "exp500",
 )
 
 if __name__ == "__main__":
@@ -80,7 +79,7 @@ if __name__ == "__main__":
                 # GET THE TRAINING WEIGHTS/MASKS TO PLOT AND EVALUATE
                 if settings["model_type"] == "interp_model":
                     # get the weights
-                    weights_val = model.get_layer('mask_model').get_layer("weights_layer").bias.numpy().reshape(analog_input[0].shape)
+                    weights_val = model_diagnostics.retrieve_mask(model, settings, analog_input[0].shape)
 
                     # plot the masks
                     model_diagnostics.visualize_interp_model(settings, weights_val, lat, lon)

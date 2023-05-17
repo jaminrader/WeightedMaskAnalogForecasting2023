@@ -4,7 +4,7 @@ __author__ = "Jamin K. Rader, Elizabeth A. Barnes, and Randal J. Barnes"
 __version__ = "30 March 2023"
 
 # Specify a list of experiments to tune
-EXP_NAMES = ["exp403basetune_interp", "exp403basetune_ann", "exp403basetune_ann_analog",]
+EXP_NAMES = ["exp300basetune_interp"]
 
 
 NTRIALS = 100

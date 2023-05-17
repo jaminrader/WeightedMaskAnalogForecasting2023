@@ -39,35 +39,21 @@ def train_experiments(
                                               settings_overwrite=settings_overwrite)
 
         print('-- TRAINING ' + settings["exp_name"] + ' --')
-        if exp_name.startswith('exp9'):
-            with open(dir_settings['example_data_directory'] + settings['example_data'] + '.p', 'rb') as fp:
-                saved_data = pickle.load(fp)
-            analog_input = saved_data['analog_input']
-            soi_train_input = saved_data['soi_train_input']
-            soi_val_input = saved_data['soi_val_input']
-            soi_test_input = saved_data['soi_test_input']
-            analog_output = saved_data['analog_output']
-            soi_train_output = saved_data['soi_train_output']
-            soi_val_output = saved_data['soi_val_output']
-            soi_test_output = saved_data['soi_test_output']
-            lat = saved_data['lat']
-            lon = saved_data['lon']
             
-        else:
-            (
-                analog_input,
-                analog_output,
-                soi_train_input,
-                soi_train_output,
-                soi_val_input,
-                soi_val_output,
-                soi_test_input,
-                soi_test_output,
-                input_standard_dict,
-                output_standard_dict,
-                lat,
-                lon,
-            ) = build_data.build_data(settings, data_directory)
+        (
+            analog_input,
+            analog_output,
+            soi_train_input,
+            soi_train_output,
+            soi_val_input,
+            soi_val_output,
+            soi_test_input,
+            soi_test_output,
+            input_standard_dict,
+            output_standard_dict,
+            lat,
+            lon,
+        ) = build_data.build_data(settings, data_directory)
 
         for rng_seed in settings["rng_seed_list"]:
             settings["rng_seed"] = rng_seed
@@ -136,14 +122,9 @@ def train_experiments(
 
                 # GET THE TRAINING WEIGHTS/MASKS TO PLOT AND EVALUATE
                 if settings["model_type"] == "interp_model":
-                    # (
-                    #     weights_val,
-                    #     dissimilarities_val,
-                    #     prediction_val,
-                    # ) = build_model.parse_model(x_val, mask_model, dissimilarity_model, prediction_model,)
-                    # mean_weights_val = np.mean(weights_val, axis=0)[np.newaxis, :, :, :]
 
-                    weights_val = model.get_layer('mask_model').get_layer("weights_layer").bias.numpy().reshape(analog_input[0].shape)
+                    #weights_val = model.get_layer('mask_model').get_layer("weights_layer").bias.numpy().reshape(analog_input[0].shape)
+                    weights_val = model_diagnostics.retrieve_mask(model, settings, analog_input[0].shape)
 
                     # plot the masks
                     model_diagnostics.visualize_interp_model(settings, weights_val, lat, lon)
