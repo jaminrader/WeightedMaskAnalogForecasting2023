@@ -10,7 +10,7 @@ import base_directories
 tf.config.set_visible_devices([], "GPU")  # turn-off tensorflow-metal if it is on
 np.warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 
-__author__ = "Jamin K. Rader, Elizabeth A. Barnes, and Randal J. Barnes"
+__author__ = "Jamin K. Rader, Elizabeth A. Barnes"
 __version__ = "30 March 2023"
 
 # List of experiments to run

@@ -8,7 +8,7 @@ Functions
 import numpy as np
 import tensorflow as tf
 
-__author__ = "Jamin K. Rader, Elizabeth A. Barnes, and Randal J. Barnes"
+__author__ = "Jamin K. Rader, Elizabeth A. Barnes"
 __version__ = "30 March 2023"
 
 def compute_best_analogs(inputs, n_analogs):
@@ -31,6 +31,16 @@ def mse_operation(inputs):
 
     return np.stack(results, axis=0)
 
+def std_operation(inputs):
+    assert type(inputs["n_analogs"]) is not int # should be a list-type
+    i_analogs = compute_best_analogs(inputs, inputs["max_analogs"])
+    results = []
+    for n_analogs in inputs["n_analogs"]:
+        results.append(
+            np.std(inputs["analog_output"][i_analogs[:n_analogs]])
+        )
+
+    return np.stack(results, axis=0)
 
 def mse(analog, truth):
     difference = tf.keras.layers.subtract([analog, truth])
@@ -112,6 +122,7 @@ def calc_custom_baseline(name, soi_output=None, soi_train_output=None, settings=
 
 def test_predictions(inputs):
     i_analogs = compute_best_analogs(inputs, inputs["max_analogs"])
+
     results = (
                np.mean(inputs["analog_output"][i_analogs]),
                np.min(inputs["analog_output"][i_analogs]),

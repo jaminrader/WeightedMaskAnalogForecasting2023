@@ -19,7 +19,7 @@ warnings.filterwarnings(action='ignore', message='All-NaN slice encountered')
 warnings.filterwarnings("ignore", category=ShapelyDeprecationWarning)
 np.warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning)
 
-__author__ = "Jamin K. Rader, Elizabeth A. Barnes, and Randal J. Barnes"
+__author__ = "Jamin K. Rader, Elizabeth A. Barnes"
 __version__ = "30 March 2023"
 
 dir_settings = base_directories.get_directories()

@@ -10,7 +10,7 @@ import tensorflow as tf
 import metrics
 import gc
 
-__author__ = "Jamin K. Rader, Elizabeth A. Barnes, and Randal J. Barnes"
+__author__ = "Jamin K. Rader, Elizabeth A. Barnes"
 __version__ = "30 March 2023"
 
 def parse_model(x_input, mask_model, dissimilarity_model, prediction_model):

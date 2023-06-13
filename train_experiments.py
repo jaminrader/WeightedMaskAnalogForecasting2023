@@ -19,7 +19,7 @@ import plots
 import warnings
 warnings.filterwarnings(action='ignore', message='Mean of empty slice')
 
-__author__ = "Jamin K. Rader, Elizabeth A. Barnes, and Randal J. Barnes"
+__author__ = "Jamin K. Rader, Elizabeth A. Barnes"
 __version__ = "30 March 2023"
 
 dir_settings = base_directories.get_directories()

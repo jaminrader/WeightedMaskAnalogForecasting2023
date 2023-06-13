@@ -20,7 +20,7 @@ import time
 import warnings
 warnings.filterwarnings(action='ignore', message='Mean of empty slice')
 
-__author__ = "Jamin K. Rader"
+__author__ = "Jamin K. Rader, Elizabeth A. Barnes"
 __version__ = "30 March 2023"
 
 def random_select(settings, trial_num):

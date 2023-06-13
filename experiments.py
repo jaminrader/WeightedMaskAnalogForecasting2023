@@ -1,7 +1,7 @@
 # define experiments
 import numpy as np
 
-__author__ = "Jamin K. Rader, Elizabeth A. Barnes, and Randal J. Barnes"
+__author__ = "Jamin K. Rader, Elizabeth A. Barnes"
 __version__ = "30 March 2023"
 
 def get_experiment(exp_name, base_exp_name=None, settings_overwrite=None):
