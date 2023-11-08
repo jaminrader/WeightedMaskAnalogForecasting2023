@@ -92,7 +92,7 @@ def plot_targets(target_train, target_val):
 
 
 def drawOnGlobe(ax, map_proj, data, lats, lons, cmap='coolwarm', vmin=None, vmax=None, inc=None, cbarBool=True,
-                contourMap=[], contourVals=[], fastBool=False, extent='both', alpha=1., landfacecolor="None"):
+                contourMap=[], contourVals=[], fastBool=False, extent='both', alpha=1., landfacecolor="None", cbarpad=.02):
 
     data_crs = ct.crs.PlateCarree()
     data_cyc, lons_cyc = add_cyclic_point(data, coord=lons)  # fixes white line by adding point#data,lons#ct.util.add_cyclic_point(data, coord=lons) #fixes white line by adding point
@@ -139,7 +139,7 @@ def drawOnGlobe(ax, map_proj, data, lats, lons, cmap='coolwarm', vmin=None, vmax
         ax.contour(lons_cyc, lats, contourMap_cyc, contourVals, transform=data_crs, colors='fuchsia')
 
     if cbarBool:
-        cb = plt.colorbar(image, shrink=.45, orientation="horizontal", pad=.02, extend=extent)
+        cb = plt.colorbar(image, shrink=.45, orientation="horizontal", pad=cbarpad, extend=extent)
         cb.ax.tick_params(labelsize=6)
     else:
         cb = None
@@ -287,7 +287,7 @@ def summarize_skill_score(metrics_dict):
 
 def plot_interp_masks(fig, settings, weights_train, lat, lon, region_bool=True, climits=None, central_longitude=215.,
                       title_text=None, subplot=(1, 1, 1), cmap=None, use_text=True, edgecolor="turquoise", 
-                      cbarBool=True):
+                      cbarBool=True, cbarpad=0.02):
 
     if cmap is None:
         cmap = get_mycolormap()
@@ -319,6 +319,7 @@ def plot_interp_masks(fig, settings, weights_train, lat, lon, region_bool=True, 
                     extent=None,
                     cbarBool=cbarBool,
                     landfacecolor=landfacecolor,
+                    cbarpad=cbarpad
                     )
         if region_bool:
             reg = regions.get_region_dict(settings["target_region_name"])
