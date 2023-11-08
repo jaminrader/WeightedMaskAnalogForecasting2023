@@ -17,6 +17,9 @@ Step 4:
     Run _evaluate_performance.py with the experiment(s) you ran in Step 3. This will assess the skill of
     the analog forecasting approach with the learned weighted mask. 
 
+Step 5:
+     Create the figures seen in the paper by running the _make_custom_plots.ipynb notebook.
+
 
 Defining your own experiment:
 
